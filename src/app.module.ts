@@ -7,8 +7,10 @@ import { GraphQLModule } from '@nestjs/graphql'
 import config from './mikro-orm.config'
 import { QuoteRecordModule } from './quoteRecord/quoteRecord.module'
 import { UserModule } from './user/user.module'
+import { HealthcheckController } from 'healthcheck.controller'
 
 @Module({
+  controllers: [HealthcheckController],
   imports: [
     MikroOrmModule.forRoot(config),
     ConfigModule.forRoot({ isGlobal: true }),
