@@ -6,7 +6,7 @@ export class QuoteRecordType extends QuoteRecord {
   @Field(() => Int)
   declare id: QuoteRecord['id']
 
-  @Field(() => Int)
+  @Field(() => String)
   declare text: QuoteRecord['text']
 
   @Field(() => Date)
