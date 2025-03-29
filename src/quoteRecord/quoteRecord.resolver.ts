@@ -17,7 +17,6 @@ export class QuoteRecordResolver {
 
   @Query(() => QuoteRecordType)
   async getLastQuoteRecord() {
-    console.log('🔥 🔥 🔥 🔥 fire')
     return this.quoteRecordService.getLast()
   }
 
