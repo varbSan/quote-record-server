@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "declaration": true,
+    "declaration": true, // EXPLAIN: this line generates .d.ts files. In production, MikroORM uses these .d.ts files instead of TS source files. 
     "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
@@ -16,6 +16,12 @@
     "forceConsistentCasingInFileNames": true,
     "noImplicitAny": false,
     "strictBindCallApply": false,
-    "noFallthroughCasesInSwitch": false
-  }
+    "noFallthroughCasesInSwitch": false,
+
+    // other options
+    "paths": {
+      "*": ["node_modules/*", "src/*"],
+    },   
+  },
+  "include": ["src/**/*"]
 }
