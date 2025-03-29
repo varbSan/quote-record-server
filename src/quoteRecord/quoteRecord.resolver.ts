@@ -1,6 +1,5 @@
 import {
   Args,
-  Int,
   Mutation,
   Query,
   Resolver,

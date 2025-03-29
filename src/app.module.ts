@@ -3,11 +3,11 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo'
 import { Module } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { GraphQLModule } from '@nestjs/graphql'
+import { HealthcheckController } from 'healthcheck.controller'
 // import { AuthModule } from './auth/auth.module'
 import config from './mikro-orm.config'
 import { QuoteRecordModule } from './quoteRecord/quoteRecord.module'
 import { UserModule } from './user/user.module'
-import { HealthcheckController } from 'healthcheck.controller'
 
 @Module({
   controllers: [HealthcheckController],
