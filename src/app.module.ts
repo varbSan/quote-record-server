@@ -3,6 +3,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo'
 import { Module } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { GraphQLModule } from '@nestjs/graphql'
+import { FileModule } from 'file/file.module'
 import { HealthcheckController } from 'healthcheck.controller'
 // import { AuthModule } from './auth/auth.module'
 import config from './mikro-orm.config'
@@ -39,6 +40,7 @@ import { UserModule } from './user/user.module'
     }),
     UserModule,
     // AuthModule,
+    FileModule,
     QuoteRecordModule,
   ],
 })

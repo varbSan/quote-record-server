@@ -17,13 +17,12 @@
         },
         "text": {
           "name": "text",
-          "type": "varchar(255)",
+          "type": "text",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "length": 255,
-          "mappedType": "string"
+          "mappedType": "text"
         },
         "created_at": {
           "name": "created_at",
@@ -33,6 +32,7 @@
           "primary": false,
           "nullable": false,
           "length": 6,
+          "default": "now()",
           "mappedType": "datetime"
         },
         "updated_at": {
@@ -43,12 +43,23 @@
           "primary": false,
           "nullable": false,
           "length": 6,
+          "default": "now()",
           "mappedType": "datetime"
         }
       },
       "name": "quote_record",
       "schema": "public",
       "indexes": [
+        {
+          "columnNames": [
+            "text"
+          ],
+          "composite": false,
+          "keyName": "quote_record_text_unique",
+          "constraint": true,
+          "primary": false,
+          "unique": true
+        },
         {
           "keyName": "quote_record_pkey",
           "columnNames": [

@@ -19,6 +19,21 @@ export class QuoteRecordResolver {
     return this.quoteRecordService.getLast()
   }
 
+  @Query(() => QuoteRecordType)
+  async getRandomQuoteRecord() { // TODO: restrict toc userId
+    return this.quoteRecordService.getRandom()
+  }
+
+  @Query(() => QuoteRecordType)
+  async getQuoteRecordByText(@Args('text', { type: () => String }) text: string) {
+    return this.quoteRecordService.findBy({ text })
+  }
+
+  @Query(() => Number)
+  async getQuoteRecordTotalCount() {
+    return this.quoteRecordService.getCount()
+  }
+
   @Subscription(() => QuoteRecordType, { name: 'quoteRecordCreated' })
   quoteRecordCreated() {
     return pubSub.asyncIterableIterator('quoteRecordCreated')
