@@ -1,5 +1,6 @@
 import {
   Args,
+  Int,
   Mutation,
   Query,
   Resolver,
@@ -29,7 +30,7 @@ export class QuoteRecordResolver {
     return this.quoteRecordService.findBy({ text })
   }
 
-  @Query(() => Number)
+  @Query(() => Int)
   async getQuoteRecordTotalCount() {
     return this.quoteRecordService.getCount()
   }

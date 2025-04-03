@@ -19,7 +19,7 @@ type Query {
   getLastQuoteRecord: QuoteRecordType!
   getRandomQuoteRecord: QuoteRecordType!
   getQuoteRecordByText(text: String!): QuoteRecordType!
-  getQuoteRecordTotalCount: Float!
+  getQuoteRecordTotalCount: Int!
 }
 
 type Mutation {
