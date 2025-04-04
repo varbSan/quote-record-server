@@ -14,8 +14,16 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type UserType {
+  id: Int!
+  email: String!
+  firstName: String!
+  lastName: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
 type Query {
-  hello: String!
   getLastQuoteRecord: QuoteRecordType!
   getRandomQuoteRecord: QuoteRecordType!
   getQuoteRecordByText(text: String!): QuoteRecordType!
@@ -23,7 +31,14 @@ type Query {
 }
 
 type Mutation {
+  createUser(createUserInput: CreateUserInput!): UserType!
   createQuoteRecord(text: String!): QuoteRecordType!
+}
+
+input CreateUserInput {
+  email: String!
+  firstName: String!
+  lastName: String!
 }
 
 type Subscription {

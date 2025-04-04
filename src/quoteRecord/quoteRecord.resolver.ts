@@ -1,3 +1,4 @@
+import { ForbiddenException } from '@nestjs/common'
 import {
   Args,
   Int,
@@ -7,13 +8,17 @@ import {
   Subscription,
 } from '@nestjs/graphql'
 import { PubSub } from 'graphql-subscriptions/dist'
+import { UserService } from 'user/user.service'
 import { QuoteRecordService } from './quoteRecord.service'
 import { QuoteRecordType } from './quoteRecord.type'
 
 const pubSub = new PubSub()
 @Resolver(() => QuoteRecordType)
 export class QuoteRecordResolver {
-  constructor(private readonly quoteRecordService: QuoteRecordService) {}
+  constructor(
+    private readonly quoteRecordService: QuoteRecordService,
+    private readonly userService: UserService
+  ) {}
 
   @Query(() => QuoteRecordType)
   async getLastQuoteRecord() {
@@ -27,7 +32,7 @@ export class QuoteRecordResolver {
 
   @Query(() => QuoteRecordType)
   async getQuoteRecordByText(@Args('text', { type: () => String }) text: string) {
-    return this.quoteRecordService.findBy({ text })
+    return this.quoteRecordService.findOneBy({ text })
   }
 
   @Query(() => Int)
@@ -41,8 +46,15 @@ export class QuoteRecordResolver {
   }
 
   @Mutation(() => QuoteRecordType)
-  async createQuoteRecord(@Args('text', { type: () => String }) text: string) {
-    const quoteRecordCreated = await this.quoteRecordService.create(text)
+  async createQuoteRecord(
+    @Args('text', { type: () => String }) text: string
+  ) {
+    // TODO: use currentUser with decorators
+    const currentUser = await this.userService.findOneBy({ id: 1 })
+    if (!currentUser)
+      throw new ForbiddenException(`User of id ${1} does not exist`)
+
+    const quoteRecordCreated = await this.quoteRecordService.create({ author: currentUser, text })
     void pubSub.publish('quoteRecordCreated', { quoteRecordCreated })
     return quoteRecordCreated
   }

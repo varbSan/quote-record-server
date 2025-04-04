@@ -1,30 +1,32 @@
 import {
   BaseEntity,
   Entity,
+  ManyToOne,
   PrimaryKey,
   Property,
-  Unique,
 } from '@mikro-orm/postgresql'
+import { User } from 'user/user.entity'
+import { CreateQuoteRecord } from './inputs/createQuoteRecord.interface'
 
 @Entity()
 export class QuoteRecord extends BaseEntity {
+  constructor(input: CreateQuoteRecord) {
+    super()
+    Object.assign(this, input)
+  }
+
   @PrimaryKey()
   id!: number
 
   @Property({ type: 'text' })
-  @Unique() // Ensure uniqueness in the database
   text!: string
 
-  @Property({
-    type: 'timestamp',
-    defaultRaw: 'now()', // PostgreSQL default for new rows
-  })
-  createdAt!: Date
+  @ManyToOne(() => User)
+  author!: User
 
-  @Property({
-    type: 'timestamp',
-    defaultRaw: 'now()',
-    onUpdate: () => new Date(), // Updates on every save
-  })
-  updatedAt!: Date
+  @Property()
+  createdAt = new Date()
+
+  @Property({ onUpdate: () => new Date() })
+  updatedAt = new Date()
 }

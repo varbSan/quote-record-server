@@ -2,16 +2,16 @@ import { Field, Int, ObjectType } from '@nestjs/graphql'
 import { QuoteRecord } from './quoteRecord.entity'
 
 @ObjectType()
-export class QuoteRecordType extends QuoteRecord {
+export class QuoteRecordType {
   @Field(() => Int)
-  declare id: QuoteRecord['id']
+  id: QuoteRecord['id']
 
   @Field(() => String)
-  declare text: QuoteRecord['text']
+  text: QuoteRecord['text']
 
   @Field(() => Date)
-  declare createdAt: QuoteRecord['createdAt']
+  createdAt: QuoteRecord['createdAt']
 
   @Field(() => Date)
-  declare updatedAt: QuoteRecord['updatedAt']
+  updatedAt: QuoteRecord['updatedAt']
 }

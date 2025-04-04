@@ -1,14 +1,16 @@
 import * as path from 'node:path'
-import { BadRequestException, Controller, Post, UploadedFile, UseInterceptors } from '@nestjs/common'
+import { BadRequestException, Controller, ForbiddenException, Post, UploadedFile, UseInterceptors } from '@nestjs/common'
 import { FileInterceptor } from '@nestjs/platform-express'
 import { QuoteRecordService } from 'quoteRecord/quoteRecord.service'
+import { UserService } from 'user/user.service'
 import { FileService } from './file.service'
 
 @Controller('file')
 export class FileController {
   constructor(
     private readonly fileServie: FileService,
-    private readonly quoteRecordService: QuoteRecordService
+    private readonly quoteRecordService: QuoteRecordService,
+    private readonly userService: UserService
   ) {}
 
   @Post('upload')
@@ -29,9 +31,15 @@ export class FileController {
     // Process the file contents
     const quotes = await this.fileServie.parseMarkdownFile(file.buffer.toString())
 
+    // TODO: get currentUser in decorator
+    const currentUser = await this.userService.findOneBy({ id: 1 })
+    if (!currentUser)
+      throw new ForbiddenException(`User of id ${1} does not exist`)
     // Save each quote as a QuoteRecord
-    const res = await this.quoteRecordService.upsertMany(quotes)
-
+    const res = await this.quoteRecordService.upsertMany(currentUser, quotes)
+    if (res.length === 0) {
+      return { message: `All quotes already existed in the database!` }
+    }
     return { message: `${res.length} quotes inserted successfully!` }
   }
 }
