@@ -1,6 +1,6 @@
 import { EntityManager, FilterQuery } from '@mikro-orm/postgresql'
 import { Injectable } from '@nestjs/common'
-import { CreateUserInput } from './inputs/createUser.input'
+import { CreateUserInput } from './inputs/create-user.input'
 import { User } from './user.entity'
 
 @Injectable()

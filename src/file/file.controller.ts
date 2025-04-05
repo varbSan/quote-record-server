@@ -1,7 +1,7 @@
 import * as path from 'node:path'
 import { BadRequestException, Controller, ForbiddenException, Post, UploadedFile, UseInterceptors } from '@nestjs/common'
 import { FileInterceptor } from '@nestjs/platform-express'
-import { QuoteRecordService } from 'quoteRecord/quoteRecord.service'
+import { QuoteRecordService } from 'quote-record/quote-record.service'
 import { UserService } from 'user/user.service'
 import { FileService } from './file.service'
 

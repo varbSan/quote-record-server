@@ -9,8 +9,8 @@ import {
 } from '@nestjs/graphql'
 import { PubSub } from 'graphql-subscriptions/dist'
 import { UserService } from 'user/user.service'
-import { QuoteRecordService } from './quoteRecord.service'
-import { QuoteRecordType } from './quoteRecord.type'
+import { QuoteRecordService } from './quote-record.service'
+import { QuoteRecordType } from './quote-record.type'
 
 const pubSub = new PubSub()
 @Resolver(() => QuoteRecordType)

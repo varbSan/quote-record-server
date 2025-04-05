@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common'
-import { QuoteRecordModule } from 'quoteRecord/quoteRecord.module'
-import { QuoteRecordService } from 'quoteRecord/quoteRecord.service'
+import { QuoteRecordModule } from 'quote-record/quote-record.module'
+import { QuoteRecordService } from 'quote-record/quote-record.service'
 import { UserService } from 'user/user.service'
 import { FileController } from './file.controller'
 import { FileService } from './file.service'

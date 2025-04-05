@@ -7,8 +7,8 @@ import {
   Property,
   Unique,
 } from '@mikro-orm/postgresql'
-import { QuoteRecord } from 'quoteRecord/quoteRecord.entity'
-import { CreateUser } from './inputs/createUser.interface'
+import { QuoteRecord } from 'quote-record/quote-record.entity'
+import { CreateUser } from './inputs/create-user.interface'
 
 @Entity()
 export class User extends BaseEntity {

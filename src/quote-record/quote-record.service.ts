@@ -1,8 +1,8 @@
 import { EntityManager, FilterQuery } from '@mikro-orm/postgresql'
 import { Injectable } from '@nestjs/common'
 import { User } from 'user/user.entity'
-import { CreateQuoteRecord } from './inputs/createQuoteRecord.interface'
-import { QuoteRecord } from './quoteRecord.entity'
+import { CreateQuoteRecord } from './inputs/create-quote-record.interface'
+import { QuoteRecord } from './quote-record.entity'
 
 @Injectable()
 export class QuoteRecordService {

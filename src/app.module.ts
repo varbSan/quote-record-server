@@ -7,7 +7,7 @@ import { FileModule } from 'file/file.module'
 import { HealthcheckController } from 'healthcheck.controller'
 // import { AuthModule } from './auth/auth.module'
 import config from './mikro-orm.config'
-import { QuoteRecordModule } from './quoteRecord/quoteRecord.module'
+import { QuoteRecordModule } from './quote-record/quote-record.module'
 import { UserModule } from './user/user.module'
 
 @Module({
