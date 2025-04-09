@@ -1,5 +1,5 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql'
-import { QuoteRecord } from './quote-record.entity'
+import { QuoteRecord } from 'quote-record/quote-record.entity'
 
 @ObjectType()
 export class QuoteRecordType {

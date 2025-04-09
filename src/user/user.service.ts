@@ -1,21 +1,20 @@
 import { EntityManager, FilterQuery } from '@mikro-orm/postgresql'
 import { Injectable } from '@nestjs/common'
-import { CreateUserInput } from './inputs/create-user.input'
-import { User } from './user.entity'
+import { CreateUser, User } from './user.entity'
 
 @Injectable()
 export class UserService {
   constructor(private readonly em: EntityManager) {}
-  async findOneBy(filter: FilterQuery<User> = {}): Promise<User | null> {
-    return this.em.findOne(
+  async findOneBy(filter: FilterQuery<User> = {}, em = this.em): Promise<User | null> {
+    return em.findOne(
       User,
       filter,
     )
   }
 
-  async createUser(createUserInput: CreateUserInput): Promise<User> {
-    const createdUser = await this.em.create(User, new User(createUserInput))
-    await this.em.persistAndFlush(createdUser)
+  async createUser(createUser: CreateUser, em = this.em): Promise<User> {
+    const createdUser = await em.create(User, new User(createUser))
+    await em.persistAndFlush(createdUser)
     return createdUser
   }
 }

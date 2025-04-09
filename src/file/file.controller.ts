@@ -1,8 +1,10 @@
 import * as path from 'node:path'
-import { BadRequestException, Controller, ForbiddenException, Post, UploadedFile, UseInterceptors } from '@nestjs/common'
+import { BadRequestException, Controller, Post, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common'
 import { FileInterceptor } from '@nestjs/platform-express'
+import { AuthGuard } from 'auth/auth.guard'
+import { CurrentUser } from 'decorators/current-user.decorator'
 import { QuoteRecordService } from 'quote-record/quote-record.service'
-import { UserService } from 'user/user.service'
+import { User } from 'user/user.entity'
 import { FileService } from './file.service'
 
 @Controller('file')
@@ -10,12 +12,15 @@ export class FileController {
   constructor(
     private readonly fileServie: FileService,
     private readonly quoteRecordService: QuoteRecordService,
-    private readonly userService: UserService
   ) {}
 
+  @UseGuards(AuthGuard)
   @Post('upload')
   @UseInterceptors(FileInterceptor('file'))
-  async uploadFile(@UploadedFile() file: Express.Multer.File) {
+  async uploadFile(
+    @CurrentUser() currentUser: User,
+    @UploadedFile() file: Express.Multer.File
+  ) {
     // File validation: Check if it's a markdown file
     const fileExtension = path.extname(file.originalname)
     if (fileExtension !== '.md') {
@@ -31,14 +36,10 @@ export class FileController {
     // Process the file contents
     const quotes = await this.fileServie.parseMarkdownFile(file.buffer.toString())
 
-    // TODO: get currentUser in decorator
-    const currentUser = await this.userService.findOneBy({ id: 1 })
-    if (!currentUser)
-      throw new ForbiddenException(`User of id ${1} does not exist`)
     // Save each quote as a QuoteRecord
     const res = await this.quoteRecordService.upsertMany(currentUser, quotes)
     if (res.length === 0) {
-      return { message: `All quotes already existed in the database!` }
+      return { message: `All these quotes already exist in the database!` }
     }
     return { message: `${res.length} quotes inserted successfully!` }
   }

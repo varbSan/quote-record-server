@@ -25,8 +25,8 @@
           "length": 255,
           "mappedType": "string"
         },
-        "first_name": {
-          "name": "first_name",
+        "username": {
+          "name": "username",
           "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
@@ -35,8 +35,8 @@
           "length": 255,
           "mappedType": "string"
         },
-        "last_name": {
-          "name": "last_name",
+        "sub": {
+          "name": "sub",
           "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
@@ -80,6 +80,16 @@
           "unique": true
         },
         {
+          "columnNames": [
+            "sub"
+          ],
+          "composite": false,
+          "keyName": "user_sub_unique",
+          "constraint": true,
+          "primary": false,
+          "unique": true
+        },
+        {
           "keyName": "user_pkey",
           "columnNames": [
             "id"
@@ -114,8 +124,8 @@
           "nullable": false,
           "mappedType": "text"
         },
-        "author_id": {
-          "name": "author_id",
+        "user_id": {
+          "name": "user_id",
           "type": "int",
           "unsigned": false,
           "autoincrement": false,
@@ -160,10 +170,10 @@
       ],
       "checks": [],
       "foreignKeys": {
-        "quote_record_author_id_foreign": {
-          "constraintName": "quote_record_author_id_foreign",
+        "quote_record_user_id_foreign": {
+          "constraintName": "quote_record_user_id_foreign",
           "columnNames": [
-            "author_id"
+            "user_id"
           ],
           "localTableName": "public.quote_record",
           "referencedColumnNames": [

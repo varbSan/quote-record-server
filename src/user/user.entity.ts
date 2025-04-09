@@ -8,7 +8,8 @@ import {
   Unique,
 } from '@mikro-orm/postgresql'
 import { QuoteRecord } from 'quote-record/quote-record.entity'
-import { CreateUser } from './inputs/create-user.interface'
+
+export type CreateUser = Pick<User, 'email' | 'sub' | 'username'>
 
 @Entity()
 export class User extends BaseEntity {
@@ -25,12 +26,13 @@ export class User extends BaseEntity {
   email!: string
 
   @Property()
-  firstName!: string
+  username!: string
 
   @Property()
-  lastName!: string
+  @Unique() // Ensure uniqueness in the database
+  sub!: string
 
-  @OneToMany(() => QuoteRecord, quoteRecord => quoteRecord.author)
+  @OneToMany(() => QuoteRecord, quoteRecord => quoteRecord.user)
   quoteRecords = new Collection<QuoteRecord>(this)
 
   @Property()

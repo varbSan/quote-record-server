@@ -1,5 +1,5 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql'
-import { User } from './user.entity'
+import { User } from 'user/user.entity'
 
 @ObjectType()
 export class UserType {
@@ -10,10 +10,10 @@ export class UserType {
   email: User['email']
 
   @Field(() => String)
-  firstName: User['firstName']
+  username: User['username']
 
   @Field(() => String)
-  lastName: User['lastName']
+  sub: User['sub']
 
   @Field(() => Date)
   createdAt: User['createdAt']

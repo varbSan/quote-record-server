@@ -17,13 +17,14 @@ scalar DateTime
 type UserType {
   id: Int!
   email: String!
-  firstName: String!
-  lastName: String!
+  username: String!
+  sub: String!
   createdAt: DateTime!
   updatedAt: DateTime!
 }
 
 type Query {
+  getCurrentUser: UserType!
   getLastQuoteRecord: QuoteRecordType!
   getRandomQuoteRecord: QuoteRecordType!
   getQuoteRecordByText(text: String!): QuoteRecordType!
@@ -37,8 +38,8 @@ type Mutation {
 
 input CreateUserInput {
   email: String!
-  firstName: String!
-  lastName: String!
+  username: String!
+  sub: String!
 }
 
 type Subscription {

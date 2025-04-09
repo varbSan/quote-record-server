@@ -6,7 +6,8 @@ import {
   Property,
 } from '@mikro-orm/postgresql'
 import { User } from 'user/user.entity'
-import { CreateQuoteRecord } from './inputs/create-quote-record.interface'
+
+export type CreateQuoteRecord = Pick<QuoteRecord, 'text' | 'user'>
 
 @Entity()
 export class QuoteRecord extends BaseEntity {
@@ -22,7 +23,7 @@ export class QuoteRecord extends BaseEntity {
   text!: string
 
   @ManyToOne(() => User)
-  author!: User
+  user!: User
 
   @Property()
   createdAt = new Date()

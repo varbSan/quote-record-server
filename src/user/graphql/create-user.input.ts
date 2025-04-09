@@ -1,18 +1,18 @@
 import { Field, InputType } from '@nestjs/graphql'
-import { User } from '../user.entity'
+import { CreateUser } from '../user.entity'
 
 @InputType()
 export class CreateUserInput {
-  constructor(input: CreateUserInput) {
+  constructor(input: CreateUser) {
     Object.assign(this, input)
   }
 
   @Field(() => String)
-  email: User['email']
+  email: CreateUser['email']
 
   @Field(() => String)
-  firstName: User['firstName']
+  username: CreateUser['username']
 
   @Field(() => String)
-  lastName: User['lastName']
+  sub: CreateUser['sub']
 }

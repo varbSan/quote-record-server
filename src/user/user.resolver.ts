@@ -1,31 +1,31 @@
+import { UseGuards } from '@nestjs/common'
 import {
   Args,
   Mutation,
-  // Query,
+  Query,
   Resolver,
-  // Mutation, Args
 } from '@nestjs/graphql'
-import { CreateUserInput } from './inputs/create-user.input'
+import { AuthGuard } from 'auth/auth.guard'
+import { CurrentUser } from 'decorators/current-user.decorator'
+import { CreateUserInput } from './graphql/create-user.input'
+import { UserType } from './graphql/user.type'
 import { User } from './user.entity'
-// import { UseGuards } from '@nestjs/common';
 import { UserService } from './user.service'
-import { UserType } from './user.type'
-// import { GqlAuthGuard } from '../auth/guards/graphql-auth.guard';
 
-@Resolver(() => User)
+@Resolver(() => UserType)
 export class UserResolver {
   constructor(private readonly userService: UserService) {}
 
   @Mutation(() => UserType)
   createUser(
-    @Args('createUserInput', { type: () => CreateUserInput }) CreateUserInput: CreateUserInput,
+    @Args('createUserInput', { type: () => CreateUserInput }) createUserInput: CreateUserInput,
   ) {
-    return this.userService.createUser(CreateUserInput)
+    return this.userService.createUser(createUserInput)
   }
 
-  // @UseGuards(GqlAuthGuard)
-  // @Query(() => String)
-  // getProfile() {
-  //   return 'This is a protected profile route';
-  // }
+  @UseGuards(AuthGuard)
+  @Query(() => UserType)
+  async getCurrentUser(@CurrentUser() user: User) {
+    return user
+  }
 }
