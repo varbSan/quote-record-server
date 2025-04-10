@@ -39,7 +39,7 @@ import { UserModule } from './user/user.module'
         introspection: configService.get<string>('NODE_ENV') === 'development',
         subscriptions: {
           'graphql-ws': {
-            onConnect: async (ctx: Context) => {
+            onConnect: async (ctx: any) => {
               const authHeader = ctx.connectionParams?.headers?.Authorization ?? ''
               const token = authService.parseAuthHeaderOrFail(authHeader)
               const session = await authService.getSessionOrFail(token)
