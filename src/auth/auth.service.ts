@@ -1,13 +1,13 @@
-import type { User as AuthUser } from '@clerk/express/dist'
+import type { User as AuthUser } from '@clerk/express'
 import * as process from 'node:process'
-import { createClerkClient, verifyToken } from '@clerk/express/dist'
-import { JwtPayload } from '@clerk/types/dist'
+import { createClerkClient, verifyToken } from '@clerk/express'
+import { JwtPayload } from '@clerk/types'
 import { EntityManager } from '@mikro-orm/postgresql'
 import { Injectable, UnauthorizedException } from '@nestjs/common'
 import { CreateUser, User } from 'user/user.entity'
 import { UserService } from 'user/user.service'
 import { CreateUserSchema } from 'user/validation/create-user.schema'
-import { safeParse } from 'valibot/dist'
+import { safeParse } from 'valibot'
 
 @Injectable()
 export class AuthService {
