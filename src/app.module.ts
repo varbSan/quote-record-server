@@ -1,3 +1,4 @@
+import type { Context } from 'graphql-ws'
 import { MikroOrmModule } from '@mikro-orm/nestjs'
 import { EntityManager } from '@mikro-orm/postgresql'
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo'
@@ -38,8 +39,8 @@ import { UserModule } from './user/user.module'
         introspection: configService.get<string>('NODE_ENV') === 'development',
         subscriptions: {
           'graphql-ws': {
-            onConnect: async (ctx) => {
-              const authHeader = ctx.connectionParams?.headers?.Authorization
+            onConnect: async (ctx: Context) => {
+              const authHeader = ctx.connectionParams?.headers?.Authorization ?? ''
               const token = authService.parseAuthHeaderOrFail(authHeader)
               const session = await authService.getSessionOrFail(token)
               const emFork = em.fork()
