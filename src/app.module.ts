@@ -57,8 +57,8 @@ import { UserModule } from './user/user.module'
                 throw new UnauthorizedException(`❗ ${err.message} ❗`)
               }
             },
-            onDisconnect: (context) => {
-              if (!context?.userObj.id) {
+            onDisconnect: (context: any) => {
+              if (!context?.userObj?.id) {
                 throw new UnauthorizedException(`❗ Websocket disconnected but context had no user id ❗`)
               }
               log(`❎ websocket disconnected for user id: ${context?.userObj?.id}`)
