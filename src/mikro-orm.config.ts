@@ -8,8 +8,8 @@ export default defineConfig({
   driver: PostgreSqlDriver,
   clientUrl: process.env.DATABASE_URL,
   extensions: [Migrator],
-  entities: ['./dist/**/*.entity.js'], // Ensure this path is correct for your project structure
-  entitiesTs: ['./src/**/*.entity.ts'], // Ensure this path is correct for your project structure
+  entities: ['./dist/**/*.entity.js'],
+  entitiesTs: ['./src/**/*.entity.ts'],
   debug: process.env.NODE_ENV === 'development',
   metadataProvider: TsMorphMetadataProvider,
 })

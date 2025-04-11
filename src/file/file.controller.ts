@@ -10,7 +10,7 @@ import { FileService } from './file.service'
 @Controller('file')
 export class FileController {
   constructor(
-    private readonly fileServie: FileService,
+    private readonly fileService: FileService,
     private readonly quoteRecordService: QuoteRecordService,
   ) {}
 
@@ -34,7 +34,7 @@ export class FileController {
     }
 
     // Process the file contents
-    const quotes = await this.fileServie.parseMarkdownFile(file.buffer.toString())
+    const quotes = await this.fileService.parseMarkdownFile(file.buffer.toString())
 
     // Save each quote as a QuoteRecord
     const res = await this.quoteRecordService.upsertMany(currentUser, quotes)

@@ -1,14 +1,15 @@
 import { MikroOrmModule } from '@mikro-orm/nestjs'
 import { Module } from '@nestjs/common'
-import { AuthService } from 'auth/auth.service'
-import { UserService } from 'user/user.service'
-import { WebSocketService } from 'web-socket/web-socket.service'
+import { AuthModule } from 'auth/auth.module'
+import { UserModule } from 'user/user.module'
+import { WebSocketModule } from 'web-socket/web-socket.module'
 import { QuoteRecord } from './quote-record.entity'
 import { QuoteRecordResolver } from './quote-record.resolver'
 import { QuoteRecordService } from './quote-record.service'
 
 @Module({
-  imports: [MikroOrmModule.forFeature([QuoteRecord])],
-  providers: [QuoteRecordResolver, QuoteRecordService, UserService, WebSocketService, AuthService],
+  imports: [MikroOrmModule.forFeature([QuoteRecord]), QuoteRecordModule, WebSocketModule, AuthModule, UserModule],
+  providers: [QuoteRecordResolver, QuoteRecordService],
+  exports: [QuoteRecordService],
 })
 export class QuoteRecordModule {}

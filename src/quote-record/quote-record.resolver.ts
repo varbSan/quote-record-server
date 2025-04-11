@@ -57,11 +57,12 @@ export class QuoteRecordResolver {
   // ⚠️ Guard is declared in subscritions in app.module ⚠️
   @Subscription(() => QuoteRecordType, {
     name: 'quoteRecordCreated',
-    // resolve: (payload, ) => payload.quoteRecordCreated,
-    // filter: (payload, _variables, context) => {
-    //   // Only allow through if the record belongs to this user
-    //   return payload.quoteRecordCreated.user.id === context.userObj.id
-    // },
+    resolve: (payload) => {
+      return payload.quoteRecordCreated
+    },
+    filter: (payload, _variables, context) => {
+      return payload?.quoteRecordCreated?.user?.sub === context?.req?.userObj?.sub
+    },
   })
   quoteRecordCreated() {
     return this.webSocketService.getPubSub().asyncIterableIterator('quoteRecordCreated')

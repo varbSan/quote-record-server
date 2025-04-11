@@ -2,9 +2,11 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type QuoteRecordType {
+type UserType {
   id: Int!
-  text: String!
+  email: String!
+  username: String!
+  sub: String!
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -14,11 +16,10 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
-type UserType {
+type QuoteRecordType {
   id: Int!
-  email: String!
-  username: String!
-  sub: String!
+  text: String!
+  user: UserType!
   createdAt: DateTime!
   updatedAt: DateTime!
 }
