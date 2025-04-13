@@ -12,6 +12,7 @@ import { CurrentUser } from 'decorators/current-user.decorator'
 import { QuoteRecordType } from 'quote-record/graphql/quote-record.type'
 import { User } from 'user/user.entity'
 import { WebSocketService } from 'web-socket/web-socket.service'
+import { CreateQuoteRecordInput } from './graphql/create-quote-record.input'
 import { QuoteRecordService } from './quote-record.service'
 
 @Resolver(() => QuoteRecordType)
@@ -61,7 +62,7 @@ export class QuoteRecordResolver {
       return payload.quoteRecordCreated
     },
     filter: (payload, _variables, context) => {
-      return payload?.quoteRecordCreated?.user?.sub === context?.req?.userObj?.sub
+      return payload?.quoteRecordCreated?.user?.sub === context?.req?.userObj?.sub || payload?.quoteRecordCreated.isPublic
     },
   })
   quoteRecordCreated() {
@@ -72,9 +73,9 @@ export class QuoteRecordResolver {
   @Mutation(() => QuoteRecordType)
   async createQuoteRecord(
     @CurrentUser() currentUser: User,
-    @Args('text', { type: () => String }) text: string
+    @Args('createQuoteRecordInput') createQuoteRecordInput: CreateQuoteRecordInput
   ) {
-    const quoteRecordCreated = await this.quoteRecordService.create({ user: currentUser, text })
+    const quoteRecordCreated = await this.quoteRecordService.create({ user: currentUser, ...createQuoteRecordInput })
     void this.webSocketService.getPubSub().publish('quoteRecordCreated', { quoteRecordCreated })
     return quoteRecordCreated
   }

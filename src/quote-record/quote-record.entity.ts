@@ -7,7 +7,7 @@ import {
 } from '@mikro-orm/postgresql'
 import { User } from 'user/user.entity'
 
-export type CreateQuoteRecord = Pick<QuoteRecord, 'text' | 'user'>
+export type CreateQuoteRecord = Pick<QuoteRecord, 'text' | 'user' | 'isPublic'>
 
 @Entity()
 export class QuoteRecord extends BaseEntity {
@@ -24,6 +24,9 @@ export class QuoteRecord extends BaseEntity {
 
   @ManyToOne(() => User)
   user!: User
+
+  @Property()
+  isPublic?: boolean
 
   @Property()
   createdAt = new Date()

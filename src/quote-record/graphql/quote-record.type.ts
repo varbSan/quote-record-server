@@ -1,7 +1,6 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql'
 import { QuoteRecord } from 'quote-record/quote-record.entity'
 import { UserType } from 'user/graphql/user.type'
-import { User } from 'user/user.entity'
 
 @ObjectType()
 export class QuoteRecordType {
@@ -12,7 +11,10 @@ export class QuoteRecordType {
   text: QuoteRecord['text']
 
   @Field(() => UserType)
-  user: User
+  user: QuoteRecord['user']
+
+  @Field(() => Boolean)
+  isPublic: QuoteRecord['isPublic']
 
   @Field(() => Date)
   createdAt: QuoteRecord['createdAt']

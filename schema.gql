@@ -20,6 +20,7 @@ type QuoteRecordType {
   id: Int!
   text: String!
   user: UserType!
+  isPublic: Boolean!
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -34,13 +35,18 @@ type Query {
 
 type Mutation {
   createUser(createUserInput: CreateUserInput!): UserType!
-  createQuoteRecord(text: String!): QuoteRecordType!
+  createQuoteRecord(createQuoteRecordInput: CreateQuoteRecordInput!): QuoteRecordType!
 }
 
 input CreateUserInput {
   email: String!
   username: String!
   sub: String!
+}
+
+input CreateQuoteRecordInput {
+  text: String!
+  isPublic: Boolean!
 }
 
 type Subscription {

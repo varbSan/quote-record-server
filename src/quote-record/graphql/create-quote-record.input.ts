@@ -10,6 +10,6 @@ export class CreateQuoteRecordInput {
   @Field(() => String)
   text: QuoteRecord['text']
 
-  @Field(() => String)
-  user: QuoteRecord['user']
+  @Field(() => Boolean)
+  isPublic: QuoteRecord['isPublic']
 }

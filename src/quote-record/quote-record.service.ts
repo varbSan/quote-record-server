@@ -54,7 +54,7 @@ export class QuoteRecordService {
     return quoteRecord
   }
 
-  async upsertMany(user: User, texts: string[]) {
+  async upsertMany(user: User, texts: string[], isPublic = false) {
     // remove duplicates
     const uniqueTexts = Array.from(new Set(texts))
 
@@ -66,7 +66,7 @@ export class QuoteRecordService {
     // filter out already existing texts
     const newQuoteRecords = uniqueTexts
       .filter(text => !existingTexts.has(text)) // Only create new records
-      .map(text => new QuoteRecord({ user, text }))
+      .map(text => new QuoteRecord({ user, text, isPublic }))
 
     if (newQuoteRecords.length > 0) {
       await this.em.persistAndFlush(newQuoteRecords) // Use persistAndFlush to track entities
