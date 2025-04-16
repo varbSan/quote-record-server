@@ -6,8 +6,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config'
 import { GraphQLModule } from '@nestjs/graphql'
 import { AuthModule } from 'auth/auth.module'
 import { AuthService } from 'auth/auth.service'
-import { FileModule } from 'file/file.module'
 import { HealthcheckController } from 'healthcheck/healthcheck.controller'
+import { UploadModule } from 'upload/upload.module'
 import { UserService } from 'user/user.service'
 import { WebSocketModule } from 'web-socket/web-socket.module'
 import { WebSocketService } from 'web-socket/web-socket.service'
@@ -20,7 +20,7 @@ import { UserModule } from './user/user.module'
   imports: [
     AuthModule,
     UserModule,
-    FileModule,
+    UploadModule,
     QuoteRecordModule,
     WebSocketModule,
     MikroOrmModule.forRoot(config),

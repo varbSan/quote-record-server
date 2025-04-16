@@ -5,19 +5,19 @@ import { AuthGuard } from 'auth/auth.guard'
 import { CurrentUser } from 'decorators/current-user.decorator'
 import { QuoteRecordService } from 'quote-record/quote-record.service'
 import { User } from 'user/user.entity'
-import { FileService } from './file.service'
+import { UploadService } from './upload.service'
 
-@Controller('file')
-export class FileController {
+@Controller('upload')
+export class UploadController {
   constructor(
-    private readonly fileService: FileService,
+    private readonly uploadService: UploadService,
     private readonly quoteRecordService: QuoteRecordService,
   ) {}
 
   @UseGuards(AuthGuard)
-  @Post('upload')
+  @Post('quotes')
   @UseInterceptors(FileInterceptor('file'))
-  async uploadFile(
+  async uploadQuotes(
     @CurrentUser() currentUser: User,
     @UploadedFile() file: Express.Multer.File
   ) {
@@ -34,7 +34,7 @@ export class FileController {
     }
 
     // Process the file contents
-    const quotes = await this.fileService.parseMarkdownFile(file.buffer.toString())
+    const quotes = await this.uploadService.parseMarkdownFile(file.buffer.toString())
 
     // Save each quote as a QuoteRecord
     const res = await this.quoteRecordService.upsertMany(currentUser, quotes)
