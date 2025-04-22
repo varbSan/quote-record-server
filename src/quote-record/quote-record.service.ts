@@ -1,4 +1,4 @@
-import { EntityManager, FilterQuery } from '@mikro-orm/postgresql'
+import { EntityManager, FilterQuery, FindOptions } from '@mikro-orm/postgresql'
 import { Injectable } from '@nestjs/common'
 import { User } from 'user/user.entity'
 import { CreateQuoteRecord, QuoteRecord } from './quote-record.entity'
@@ -21,11 +21,21 @@ export class QuoteRecordService {
     )
   }
 
-  async findBy(filter: FilterQuery<QuoteRecord> = {}): Promise<QuoteRecord[] | null> {
+  async findBy(filter: FilterQuery<QuoteRecord> = {}, options: FindOptions<QuoteRecord> = {}): Promise<QuoteRecord[] | null> {
     return this.em.find(
       QuoteRecord,
       filter,
+      options
     )
+  }
+
+  async findByTerm(user: User, searchTerm?: string, limit = 12): Promise<QuoteRecord[] | null> {
+    return this.findBy({
+      user,
+      ...(searchTerm ? { text: { $ilike: `%${searchTerm}%` } } : {}),
+    }, {
+      limit,
+    })
   }
 
   async getLast(user: User): Promise<QuoteRecord | null> {

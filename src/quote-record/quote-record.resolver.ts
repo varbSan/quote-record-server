@@ -79,4 +79,13 @@ export class QuoteRecordResolver {
     void this.webSocketService.getPubSub().publish('quoteRecordCreated', { quoteRecordCreated })
     return quoteRecordCreated
   }
+
+  @UseGuards(AuthGuard)
+  @Query(() => [QuoteRecordType])
+  async getQuotes(
+    @CurrentUser() currentUser: User,
+    @Args('searchTerm', { nullable: true }) searchTerm?: string
+  ) {
+    return this.quoteRecordService.findByTerm(currentUser, searchTerm)
+  }
 }

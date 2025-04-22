@@ -31,6 +31,7 @@ type Query {
   getRandomQuoteRecord: QuoteRecordType!
   getQuoteRecordByText(text: String!): QuoteRecordType!
   getQuoteRecordTotalCount: Int!
+  getQuotes(searchTerm: String): [QuoteRecordType!]!
 }
 
 type Mutation {
