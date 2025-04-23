@@ -7,11 +7,13 @@ import {
 } from '@mikro-orm/postgresql'
 import { User } from 'user/user.entity'
 
-export type CreateQuoteRecord = Pick<QuoteRecord, 'text' | 'user' | 'isPublic'>
+export type CreateQuote = Pick<QuoteRecord, 'user' | 'text' | 'isPublic'>
+export type UpdateQuote = Pick<QuoteRecord, | 'id' | 'user' | 'text'>
+export type DeleteQuote = Pick<QuoteRecord, 'id' | 'user'>
 
 @Entity()
 export class QuoteRecord extends BaseEntity {
-  constructor(input: CreateQuoteRecord) {
+  constructor(input: CreateQuote) {
     super()
     Object.assign(this, input)
   }

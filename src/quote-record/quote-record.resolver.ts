@@ -13,6 +13,8 @@ import { QuoteRecordType } from 'quote-record/graphql/quote-record.type'
 import { User } from 'user/user.entity'
 import { WebSocketService } from 'web-socket/web-socket.service'
 import { CreateQuoteRecordInput } from './graphql/create-quote-record.input'
+import { DeleteQuoteInput } from './graphql/delete-quote.input'
+import { UpdateQuoteInput } from './graphql/update-quote.input'
 import { QuoteRecordService } from './quote-record.service'
 
 @Resolver(() => QuoteRecordType)
@@ -78,6 +80,24 @@ export class QuoteRecordResolver {
     const quoteRecordCreated = await this.quoteRecordService.create({ user: currentUser, ...createQuoteRecordInput })
     void this.webSocketService.getPubSub().publish('quoteRecordCreated', { quoteRecordCreated })
     return quoteRecordCreated
+  }
+
+  @UseGuards(AuthGuard)
+  @Mutation(() => QuoteRecordType)
+  async updateQuote(
+    @CurrentUser() currentUser: User,
+    @Args('updateQuoteInput') updateQuoteInput: UpdateQuoteInput
+  ) {
+    return this.quoteRecordService.update({ user: currentUser, ...updateQuoteInput })
+  }
+
+  @UseGuards(AuthGuard)
+  @Mutation(() => Int)
+  async deleteQuote(
+    @CurrentUser() currentUser: User,
+    @Args('deleteQuoteInput') deleteQuoteInput: DeleteQuoteInput
+  ) {
+    return this.quoteRecordService.delete({ user: currentUser, ...deleteQuoteInput })
   }
 
   @UseGuards(AuthGuard)

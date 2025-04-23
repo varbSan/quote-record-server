@@ -1,9 +1,9 @@
 import { Field, InputType } from '@nestjs/graphql'
-import { CreateQuoteRecord, QuoteRecord } from 'quote-record/quote-record.entity'
+import { CreateQuote, QuoteRecord } from 'quote-record/quote-record.entity'
 
 @InputType()
 export class CreateQuoteRecordInput {
-  constructor(input: CreateQuoteRecord) {
+  constructor(input: CreateQuote) {
     Object.assign(this, input)
   }
 

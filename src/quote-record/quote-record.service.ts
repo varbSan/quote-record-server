@@ -1,7 +1,7 @@
 import { EntityManager, FilterQuery, FindOptions } from '@mikro-orm/postgresql'
 import { Injectable } from '@nestjs/common'
 import { User } from 'user/user.entity'
-import { CreateQuoteRecord, QuoteRecord } from './quote-record.entity'
+import { CreateQuote, DeleteQuote, QuoteRecord, UpdateQuote } from './quote-record.entity'
 
 @Injectable()
 export class QuoteRecordService {
@@ -29,12 +29,13 @@ export class QuoteRecordService {
     )
   }
 
-  async findByTerm(user: User, searchTerm?: string, limit = 12): Promise<QuoteRecord[] | null> {
+  async findByTerm(user: User, searchTerm?: string, limit = 6): Promise<QuoteRecord[] | null> {
     return this.findBy({
       user,
       ...(searchTerm ? { text: { $ilike: `%${searchTerm}%` } } : {}),
     }, {
       limit,
+      orderBy: { updatedAt: -1 },
     })
   }
 
@@ -58,10 +59,21 @@ export class QuoteRecordService {
     return quoteRecords[randomRecordIndex]
   }
 
-  async create(createQuoteRecord: CreateQuoteRecord): Promise<QuoteRecord> {
-    const quoteRecord = new QuoteRecord(createQuoteRecord)
+  async create(createQuote: CreateQuote): Promise<QuoteRecord> {
+    const quoteRecord = new QuoteRecord(createQuote)
     await this.em.persistAndFlush(quoteRecord)
     return quoteRecord
+  }
+
+  async update(updateQuote: UpdateQuote): Promise<QuoteRecord> {
+    const quote = await this.em.findOneOrFail(QuoteRecord, { id: updateQuote.id, user: updateQuote.user })
+    quote.text = updateQuote.text
+    await this.em.persistAndFlush(quote)
+    return quote
+  }
+
+  async delete(deleteQuote: DeleteQuote): Promise<number> {
+    return this.em.nativeDelete(QuoteRecord, { id: deleteQuote.id, user: deleteQuote.user })
   }
 
   async upsertMany(user: User, texts: string[], isPublic = false) {

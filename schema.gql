@@ -37,6 +37,8 @@ type Query {
 type Mutation {
   createUser(createUserInput: CreateUserInput!): UserType!
   createQuoteRecord(createQuoteRecordInput: CreateQuoteRecordInput!): QuoteRecordType!
+  updateQuote(updateQuoteInput: UpdateQuoteInput!): QuoteRecordType!
+  deleteQuote(deleteQuoteInput: DeleteQuoteInput!): Int!
 }
 
 input CreateUserInput {
@@ -48,6 +50,15 @@ input CreateUserInput {
 input CreateQuoteRecordInput {
   text: String!
   isPublic: Boolean!
+}
+
+input UpdateQuoteInput {
+  id: Int!
+  text: String!
+}
+
+input DeleteQuoteInput {
+  id: Int!
 }
 
 type Subscription {
