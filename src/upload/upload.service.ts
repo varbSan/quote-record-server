@@ -5,10 +5,11 @@ import {
 } from '@aws-sdk/client-s3'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 import { Injectable } from '@nestjs/common'
+import 'dotenv/config'
 
 @Injectable()
 export class UploadService {
-  private s3 = new S3Client({
+  private readonly s3 = new S3Client({
     region: 'eu-central',
     endpoint: process.env.BUCKET_ENDPOINT,
     credentials: {
