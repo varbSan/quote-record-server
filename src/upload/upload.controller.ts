@@ -1,5 +1,5 @@
 import * as path from 'node:path'
-import { BadRequestException, Controller, Post, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common'
+import { BadRequestException, Controller, Get, Post, Query, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common'
 import { FileInterceptor } from '@nestjs/platform-express'
 import { AuthGuard } from 'auth/auth.guard'
 import { CurrentUser } from 'decorators/current-user.decorator'
@@ -13,6 +13,16 @@ export class UploadController {
     private readonly uploadService: UploadService,
     private readonly quoteRecordService: QuoteRecordService,
   ) {}
+
+  @UseGuards(AuthGuard)
+  @Get('url')
+  async getPresignedUrl(
+    @Query('filename') filename: string,
+    @Query('type') contentType: string,
+  ) {
+    const url = await this.uploadService.getPresignedUrl(filename, contentType)
+    return { url }
+  }
 
   @UseGuards(AuthGuard)
   @Post('quotes')
