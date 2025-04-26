@@ -36,6 +36,7 @@ type Query {
 
 type Mutation {
   createUser(createUserInput: CreateUserInput!): UserType!
+  uploadQuotes(filename: String!): String!
   createQuote(createQuoteInput: CreateQuoteInput!): QuoteType!
   updateQuote(updateQuoteInput: UpdateQuoteInput!): QuoteType!
   deleteQuote(deleteQuoteInput: DeleteQuoteInput!): Int!

@@ -1,10 +1,12 @@
 import * as process from 'node:process'
 import {
+  GetObjectCommand,
   PutObjectCommand,
   S3Client,
 } from '@aws-sdk/client-s3'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 import { Injectable } from '@nestjs/common'
+import { User } from 'user/user.entity'
 
 @Injectable()
 export class UploadService {
@@ -18,15 +20,26 @@ export class UploadService {
     forcePathStyle: true,
   })
 
-  async getPresignedUrl(filename: string, contentType: string) {
+  async getPresignedUrl(user: User, filename: string, contentType: string) {
     const command = new PutObjectCommand({
       Bucket: process.env.BUCKET_NAME!,
-      Key: filename,
+      Key: `${user.id}-${filename}`,
       ContentType: contentType,
     })
 
     const url = await getSignedUrl(this.s3, command, { expiresIn: 3600 })
     return url
+  }
+
+  async getFileContent(user: User, filename: string): Promise<string | undefined> {
+    const command = new GetObjectCommand({
+      Bucket: process.env.BUCKET_NAME!,
+      Key: `${user.id}-${filename}`,
+    })
+
+    const response = await this.s3.send(command)
+
+    return response.Body?.transformToString()
   }
 
   // Helper method to parse the markdown content
