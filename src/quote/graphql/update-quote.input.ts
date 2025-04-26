@@ -1,11 +1,11 @@
 import { Field, InputType, Int } from '@nestjs/graphql'
-import { QuoteRecord } from 'quote-record/quote-record.entity'
+import { Quote } from 'quote/quote.entity'
 
 @InputType()
 export class UpdateQuoteInput {
   @Field(() => Int)
-  id: QuoteRecord['id']
+  id: Quote['id']
 
   @Field(() => String)
-  text: QuoteRecord['text']
+  text: Quote['text']
 }

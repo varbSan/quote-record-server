@@ -12,7 +12,7 @@ import { UserService } from 'user/user.service'
 import { WebSocketModule } from 'web-socket/web-socket.module'
 import { WebSocketService } from 'web-socket/web-socket.service'
 import config from './mikro-orm.config'
-import { QuoteRecordModule } from './quote-record/quote-record.module'
+import { QuoteModule } from './quote/quote.module'
 import { UserModule } from './user/user.module'
 
 @Module({
@@ -21,7 +21,7 @@ import { UserModule } from './user/user.module'
     AuthModule,
     UserModule,
     UploadModule,
-    QuoteRecordModule,
+    QuoteModule,
     WebSocketModule,
     MikroOrmModule.forRoot(config),
     ConfigModule.forRoot({ isGlobal: true }),

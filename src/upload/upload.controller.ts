@@ -3,7 +3,7 @@ import { BadRequestException, Controller, Get, Post, Query, UploadedFile, UseGua
 import { FileInterceptor } from '@nestjs/platform-express'
 import { AuthGuard } from 'auth/auth.guard'
 import { CurrentUser } from 'decorators/current-user.decorator'
-import { QuoteRecordService } from 'quote-record/quote-record.service'
+import { QuoteService } from 'quote/quote.service'
 import { User } from 'user/user.entity'
 import { UploadService } from './upload.service'
 
@@ -11,7 +11,7 @@ import { UploadService } from './upload.service'
 export class UploadController {
   constructor(
     private readonly uploadService: UploadService,
-    private readonly quoteRecordService: QuoteRecordService,
+    private readonly quoteService: QuoteService,
   ) {}
 
   @UseGuards(AuthGuard)
@@ -46,8 +46,8 @@ export class UploadController {
     // Process the file contents
     const quotes = await this.uploadService.parseMarkdownFile(file.buffer.toString())
 
-    // Save each quote as a QuoteRecord
-    const res = await this.quoteRecordService.upsertMany(currentUser, quotes)
+    // Save each quote as a Quote
+    const res = await this.quoteService.upsertMany(currentUser, quotes)
     if (res.length === 0) {
       return { message: `All these quotes already exist in the database!` }
     }

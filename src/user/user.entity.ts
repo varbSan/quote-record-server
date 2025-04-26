@@ -7,7 +7,7 @@ import {
   Property,
   Unique,
 } from '@mikro-orm/postgresql'
-import { QuoteRecord } from 'quote-record/quote-record.entity'
+import { Quote } from 'quote/quote.entity'
 
 export type CreateUser = Pick<User, 'email' | 'sub' | 'username'>
 
@@ -32,8 +32,8 @@ export class User extends BaseEntity {
   @Unique() // Ensure uniqueness in the database
   sub!: string
 
-  @OneToMany(() => QuoteRecord, quoteRecord => quoteRecord.user)
-  quoteRecords = new Collection<QuoteRecord>(this)
+  @OneToMany(() => Quote, quote => quote.user)
+  quotes = new Collection<Quote>(this)
 
   @Property()
   createdAt = new Date()

@@ -16,7 +16,7 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
-type QuoteRecordType {
+type QuoteType {
   id: Int!
   text: String!
   user: UserType!
@@ -27,17 +27,17 @@ type QuoteRecordType {
 
 type Query {
   getCurrentUser: UserType!
-  getLastQuoteRecord: QuoteRecordType!
-  getRandomQuoteRecord: QuoteRecordType!
-  getQuoteRecordByText(text: String!): QuoteRecordType!
-  getQuoteRecordTotalCount: Int!
-  getQuotes(searchTerm: String): [QuoteRecordType!]!
+  getLastQuote: QuoteType!
+  getRandomQuote: QuoteType!
+  getQuoteByText(text: String!): QuoteType!
+  getQuoteTotalCount: Int!
+  getQuotes(searchTerm: String): [QuoteType!]!
 }
 
 type Mutation {
   createUser(createUserInput: CreateUserInput!): UserType!
-  createQuoteRecord(createQuoteRecordInput: CreateQuoteRecordInput!): QuoteRecordType!
-  updateQuote(updateQuoteInput: UpdateQuoteInput!): QuoteRecordType!
+  createQuote(createQuoteInput: CreateQuoteInput!): QuoteType!
+  updateQuote(updateQuoteInput: UpdateQuoteInput!): QuoteType!
   deleteQuote(deleteQuoteInput: DeleteQuoteInput!): Int!
 }
 
@@ -47,7 +47,7 @@ input CreateUserInput {
   sub: String!
 }
 
-input CreateQuoteRecordInput {
+input CreateQuoteInput {
   text: String!
   isPublic: Boolean!
 }
@@ -62,5 +62,5 @@ input DeleteQuoteInput {
 }
 
 type Subscription {
-  quoteRecordCreated: QuoteRecordType!
+  quoteCreated: QuoteType!
 }

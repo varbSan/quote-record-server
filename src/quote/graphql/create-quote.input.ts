@@ -1,15 +1,15 @@
 import { Field, InputType } from '@nestjs/graphql'
-import { CreateQuote, QuoteRecord } from 'quote-record/quote-record.entity'
+import { CreateQuote, Quote } from 'quote/quote.entity'
 
 @InputType()
-export class CreateQuoteRecordInput {
+export class CreateQuoteInput {
   constructor(input: CreateQuote) {
     Object.assign(this, input)
   }
 
   @Field(() => String)
-  text: QuoteRecord['text']
+  text: Quote['text']
 
   @Field(() => Boolean)
-  isPublic: QuoteRecord['isPublic']
+  isPublic: Quote['isPublic']
 }
