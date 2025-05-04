@@ -30,6 +30,12 @@ export class Quote extends BaseEntity {
   @Property()
   isPublic?: boolean
 
+  @Property({ type: 'text' })
+  imagePrompt?: string
+
+  @Property({ type: 'text' })
+  imageUrl?: string
+
   @Property()
   createdAt = new Date()
 

@@ -1,11 +1,15 @@
 import { EntityManager, FilterQuery, FindOptions } from '@mikro-orm/postgresql'
 import { Injectable } from '@nestjs/common'
+import { AiService } from 'ai/ai.service'
 import { User } from 'user/user.entity'
 import { CreateQuote, DeleteQuote, Quote, UpdateQuote } from './quote.entity'
 
 @Injectable()
 export class QuoteService {
-  constructor(private readonly em: EntityManager) {}
+  constructor(
+    private readonly em: EntityManager,
+    private readonly aiService: AiService
+  ) {}
 
   async getCount(filter: FilterQuery<Quote> = {}): Promise<number | null> {
     return this.em.count(
@@ -61,6 +65,27 @@ export class QuoteService {
 
   async create(createQuote: CreateQuote): Promise<Quote> {
     const quote = new Quote(createQuote)
+    await this.em.persistAndFlush(quote)
+    return quote
+  }
+
+  async generateImage(user: User, quoteId: number): Promise<Quote> {
+    const quote = await this.findOneBy({
+      id: quoteId,
+      user,
+    })
+    if (!quote) {
+      throw new Error('❗ quote not found ❗')
+    }
+
+    quote.imagePrompt = await this.aiService.createQuoteImagePrompt(quote.text)
+    quote.imageUrl = await this.aiService.createQuoteImage({
+      user,
+      quoteId: quote.id,
+      contentType: 'image/png',
+      prompt: quote.imagePrompt,
+    })
+
     await this.em.persistAndFlush(quote)
     return quote
   }

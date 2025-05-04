@@ -20,6 +20,8 @@ type QuoteType {
   id: Int!
   text: String!
   user: UserType!
+  imagePrompt: String
+  imageUrl: String
   isPublic: Boolean!
   createdAt: DateTime!
   updatedAt: DateTime!
@@ -35,9 +37,11 @@ type Query {
 }
 
 type Mutation {
+  uploadQuotes(fileName: String!): String!
+  generatePresignedUrlFileUpload(fileName: String!, contentType: String!): String!
   createUser(createUserInput: CreateUserInput!): UserType!
-  uploadQuotes(filename: String!): String!
   createQuote(createQuoteInput: CreateQuoteInput!): QuoteType!
+  generateQuoteImage(quoteId: Int!): QuoteType!
   updateQuote(updateQuoteInput: UpdateQuoteInput!): QuoteType!
   deleteQuote(deleteQuoteInput: DeleteQuoteInput!): Int!
 }

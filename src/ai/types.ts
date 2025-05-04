@@ -3,3 +3,7 @@ export interface ImageArtifact {
   seed: number
   finishReason: string
 }
+
+export interface GenerationResponse {
+  artifacts: Array<ImageArtifact>
+}

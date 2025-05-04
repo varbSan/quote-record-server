@@ -4,6 +4,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo'
 import { Module, UnauthorizedException } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { GraphQLModule } from '@nestjs/graphql'
+import { AiModule } from 'ai/ai.module'
 import { AuthModule } from 'auth/auth.module'
 import { AuthService } from 'auth/auth.service'
 import { HealthcheckController } from 'healthcheck/healthcheck.controller'
@@ -18,6 +19,7 @@ import { UserModule } from './user/user.module'
 @Module({
   controllers: [HealthcheckController],
   imports: [
+    AiModule,
     AuthModule,
     UserModule,
     UploadModule,

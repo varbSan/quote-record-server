@@ -21,9 +21,9 @@ export class UploadResolver {
   @Mutation(() => String)
   async uploadQuotes(
     @CurrentUser() currentUser: User,
-    @Args('filename') filename: string
+    @Args('fileName') fileName: string
   ) {
-    const fileContent = await this.uploadService.getFileContent(currentUser, filename)
+    const fileContent = await this.uploadService.getFileContent(currentUser, fileName)
     if (!fileContent)
       throw new Error('❗ Fetching file from bucket failed ❗')
 
@@ -36,5 +36,15 @@ export class UploadResolver {
       return 'All these quotes already exist in the database!'
     }
     return `${res.length} quotes inserted successfully!`
+  }
+
+  @UseGuards(AuthGuard)
+  @Mutation(() => String)
+  async generatePresignedUrlFileUpload(
+    @CurrentUser() currentUser: User,
+    @Args('fileName') fileName: string,
+    @Args('contentType') contentType: string,
+  ) {
+    return this.uploadService.generatePresignedUrlUpload(`user-${currentUser.id}_filename-${encodeURIComponent(fileName)}_0`, contentType)
   }
 }

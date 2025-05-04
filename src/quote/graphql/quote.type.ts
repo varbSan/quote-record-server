@@ -13,6 +13,12 @@ export class QuoteType {
   @Field(() => UserType)
   user: Quote['user']
 
+  @Field(() => String, { nullable: true })
+  imagePrompt: Quote['imagePrompt']
+
+  @Field(() => String, { nullable: true })
+  imageUrl: Quote['imageUrl']
+
   @Field(() => Boolean)
   isPublic: Quote['isPublic']
 
