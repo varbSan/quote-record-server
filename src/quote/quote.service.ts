@@ -57,7 +57,10 @@ export class QuoteService {
     // TODO: find a more native way than the index
     const quotes = await this.em.find(
       Quote,
-      { user },
+      { $or: [
+        { user },
+        { isPublic: true },
+      ] },
     )
     const randomRecordIndex = Math.floor(Math.random() * (quotes.length))
     return quotes[randomRecordIndex]
