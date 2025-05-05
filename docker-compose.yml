@@ -6,3 +6,14 @@ services:
     environment:
       POSTGRES_PASSWORD: quote-record-db-password
       POSTGRES_DB: quote-record-db
+  ollama:
+    image: ollama/ollama
+    ports:
+      - 11434:11434
+    volumes:
+      - ollama_data:/root/.ollama
+    command: serve
+
+volumes:
+  ollama_data:
+  
