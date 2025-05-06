@@ -39,6 +39,15 @@ export class QuoteResolver {
 
   @UseGuards(AuthGuard)
   @Query(() => QuoteType)
+  async getQuote(
+    @CurrentUser() currentUser: User,
+    @Args('quoteId', { type: () => Int }) quoteId: number
+  ) {
+    return this.quoteService.findOneBy({ user: currentUser, id: quoteId })
+  }
+
+  @UseGuards(AuthGuard)
+  @Query(() => QuoteType)
   async getRandomQuote(
     @CurrentUser() currentUser: User
   ) {
