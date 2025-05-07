@@ -53,14 +53,11 @@ export class QuoteService {
     return quote
   }
 
-  async getRandom(user: User): Promise<Quote | null> {
+  async getRandom(filter: FilterQuery<Quote>): Promise<Quote | null> {
     // TODO: find a more native way than the index
     const quotes = await this.em.find(
       Quote,
-      { $or: [
-        { user },
-        { isPublic: true },
-      ] },
+      filter,
     )
     const randomRecordIndex = Math.floor(Math.random() * (quotes.length))
     return quotes[randomRecordIndex]

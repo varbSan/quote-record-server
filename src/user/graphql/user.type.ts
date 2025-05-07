@@ -15,6 +15,9 @@ export class UserType {
   @Field(() => String)
   sub: User['sub']
 
+  @Field(() => Boolean)
+  seePublicQuotes: User['seePublicQuotes']
+
   @Field(() => Date)
   createdAt: User['createdAt']
 

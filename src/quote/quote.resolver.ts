@@ -43,15 +43,26 @@ export class QuoteResolver {
     @CurrentUser() currentUser: User,
     @Args('quoteId', { type: () => Int }) quoteId: number
   ) {
-    return this.quoteService.findOneBy({ user: currentUser, id: quoteId })
+    const filter = currentUser.seePublicQuotes
+      ? { $or: [{ user: currentUser }, { isPublic: true }] }
+      : { user: currentUser }
+
+    return this.quoteService.findOneBy({
+      id: quoteId,
+      ...filter,
+    })
   }
 
   @UseGuards(AuthGuard)
-  @Query(() => QuoteType)
-  async getRandomQuote(
+  @Query(() => Int)
+  async getRandomQuoteId(
     @CurrentUser() currentUser: User
   ) {
-    return this.quoteService.getRandom(currentUser)
+    const filter = currentUser.seePublicQuotes
+      ? { $or: [{ user: currentUser }, { isPublic: true }] }
+      : { user: currentUser }
+    const randomQuote = await this.quoteService.getRandom(filter)
+    return randomQuote?.id
   }
 
   @UseGuards(AuthGuard)
@@ -60,15 +71,24 @@ export class QuoteResolver {
     @CurrentUser() currentUser: User,
     @Args('text', { type: () => String }) text: string
   ) {
-    return this.quoteService.findOneBy({ text, user: currentUser })
+    const filter = currentUser.seePublicQuotes
+      ? { $or: [{ user: currentUser }, { isPublic: true }] }
+      : { user: currentUser }
+    return this.quoteService.findOneBy({
+      text,
+      ...filter,
+    })
   }
 
   @UseGuards(AuthGuard)
   @Query(() => Int)
-  async getQuoteTotalCount(
+  async getQuoteCount(
     @CurrentUser() currentUser: User,
   ) {
-    return this.quoteService.getCount({ user: currentUser })
+    const filter = currentUser.seePublicQuotes
+      ? { $or: [{ user: currentUser }, { isPublic: true }] }
+      : { user: currentUser }
+    return this.quoteService.getCount(filter)
   }
 
   // ⚠️ Guard is declared in subscritions in app.module ⚠️

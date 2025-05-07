@@ -10,6 +10,7 @@ import {
 import { Quote } from 'quote/quote.entity'
 
 export type CreateUser = Pick<User, 'email' | 'sub' | 'username'>
+export type UpdateUser = Pick<User, 'seePublicQuotes'>
 
 @Entity()
 export class User extends BaseEntity {
@@ -34,6 +35,9 @@ export class User extends BaseEntity {
 
   @OneToMany(() => Quote, quote => quote.user)
   quotes = new Collection<Quote>(this)
+
+  @Property()
+  seePublicQuotes?: boolean
 
   @Property()
   createdAt = new Date()

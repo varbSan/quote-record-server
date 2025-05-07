@@ -7,6 +7,7 @@ type UserType {
   email: String!
   username: String!
   sub: String!
+  seePublicQuotes: Boolean!
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -31,9 +32,9 @@ type Query {
   getCurrentUser: UserType!
   getLastQuote: QuoteType!
   getQuote(quoteId: Int!): QuoteType!
-  getRandomQuote: QuoteType!
+  getRandomQuoteId: Int!
   getQuoteByText(text: String!): QuoteType!
-  getQuoteTotalCount: Int!
+  getQuoteCount: Int!
   getQuotes(searchTerm: String): [QuoteType!]!
 }
 
