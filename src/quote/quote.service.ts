@@ -34,8 +34,11 @@ export class QuoteService {
   }
 
   async findByTerm(user: User, searchTerm?: string, limit = 50): Promise<Quote[] | null> {
+    const filter = user.seePublicQuotes
+      ? { $or: [{ user }, { isPublic: true }] }
+      : { user }
     return this.findBy({
-      user,
+      ...filter,
       ...(searchTerm ? { text: { $ilike: `%${searchTerm}%` } } : {}),
     }, {
       limit,
