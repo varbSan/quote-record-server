@@ -63,6 +63,7 @@ input CreateQuoteInput {
 input UpdateQuoteInput {
   id: Int!
   text: String!
+  isPublic: Boolean
 }
 
 input DeleteQuoteInput {

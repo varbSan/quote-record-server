@@ -8,4 +8,7 @@ export class UpdateQuoteInput {
 
   @Field(() => String)
   text: Quote['text']
+
+  @Field(() => Boolean, { nullable: true })
+  isPublic: Quote['isPublic']
 }

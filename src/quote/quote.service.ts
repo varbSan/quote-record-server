@@ -93,6 +93,7 @@ export class QuoteService {
   async update(updateQuote: UpdateQuote): Promise<Quote> {
     const quote = await this.em.findOneOrFail(Quote, { id: updateQuote.id, user: updateQuote.user })
     quote.text = updateQuote.text
+    quote.isPublic = updateQuote.isPublic
     await this.em.persistAndFlush(quote)
     return quote
   }

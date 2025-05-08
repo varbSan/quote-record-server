@@ -8,7 +8,7 @@ import {
 import { User } from 'user/user.entity'
 
 export type CreateQuote = Pick<Quote, 'user' | 'text' | 'isPublic'>
-export type UpdateQuote = Pick<Quote, | 'id' | 'user' | 'text'>
+export type UpdateQuote = Pick<Quote, 'id' | 'user' | 'text' | 'isPublic'>
 export type DeleteQuote = Pick<Quote, 'id' | 'user'>
 
 @Entity()
