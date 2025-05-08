@@ -23,4 +23,7 @@ export class UserType {
 
   @Field(() => Date)
   updatedAt: User['updatedAt']
+
+  @Field(() => Int)
+  quoteCount: number
 }

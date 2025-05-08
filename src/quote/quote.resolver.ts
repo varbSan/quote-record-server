@@ -147,9 +147,10 @@ export class QuoteResolver {
   @Query(() => [QuoteType])
   async getQuotes(
     @CurrentUser() currentUser: User,
-    @Args('searchTerm', { nullable: true }) searchTerm?: string
+    @Args('searchTerm', { nullable: true }) searchTerm?: string,
+    @Args('limit', { nullable: true, type: () => Int }) limit?: number
   ) {
-    return this.quoteService.findByTerm(currentUser, searchTerm)
+    return this.quoteService.findByTerm(currentUser, searchTerm, limit)
   }
 
   @ResolveField('imageUrl', () => String)

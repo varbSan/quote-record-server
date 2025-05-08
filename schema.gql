@@ -10,6 +10,7 @@ type UserType {
   seePublicQuotes: Boolean!
   createdAt: DateTime!
   updatedAt: DateTime!
+  quoteCount: Int!
 }
 
 """
@@ -35,7 +36,7 @@ type Query {
   getRandomQuoteId: Int!
   getQuoteByText(text: String!): QuoteType!
   getQuoteCount: Int!
-  getQuotes(searchTerm: String): [QuoteType!]!
+  getQuotes(searchTerm: String, limit: Int): [QuoteType!]!
 }
 
 type Mutation {

@@ -33,7 +33,7 @@ export class QuoteService {
     )
   }
 
-  async findByTerm(user: User, searchTerm?: string, limit = 6): Promise<Quote[] | null> {
+  async findByTerm(user: User, searchTerm?: string, limit = 50): Promise<Quote[] | null> {
     return this.findBy({
       user,
       ...(searchTerm ? { text: { $ilike: `%${searchTerm}%` } } : {}),
