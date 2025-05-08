@@ -3,7 +3,7 @@ import { EntityManager, FilterQuery } from '@mikro-orm/postgresql'
 import { Injectable, UnauthorizedException } from '@nestjs/common'
 import { AuthService } from 'auth/auth.service'
 import { safeParse } from 'valibot'
-import { CreateUser, User } from './user.entity'
+import { CreateUser, UpdateUser, User } from './user.entity'
 import { CreateUserSchema } from './validation/create-user.schema'
 
 @Injectable()
@@ -24,6 +24,12 @@ export class UserService {
     const createdUser = await em.create(User, new User(createUser))
     await em.persistAndFlush(createdUser)
     return createdUser
+  }
+
+  async updateUser(user: User, updateUser: UpdateUser, em = this.em): Promise<User> {
+    em.assign(user, updateUser)
+    await em.persistAndFlush(user)
+    return user
   }
 
   async findOrCreateBySub(sub: string, emFork?: EntityManager): Promise<User> {

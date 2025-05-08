@@ -11,6 +11,7 @@ import { AuthGuard } from 'auth/auth.guard'
 import { CurrentUser } from 'decorators/current-user.decorator'
 import { QuoteService } from 'quote/quote.service'
 import { CreateUserInput } from './graphql/create-user.input'
+import { UpdateUserInput } from './graphql/update-user.input'
 import { UserType } from './graphql/user.type'
 import { User } from './user.entity'
 import { UserService } from './user.service'
@@ -27,6 +28,15 @@ export class UserResolver {
     @Args('createUserInput', { type: () => CreateUserInput }) createUserInput: CreateUserInput,
   ) {
     return this.userService.createUser(createUserInput)
+  }
+
+  @UseGuards(AuthGuard)
+  @Mutation(() => UserType)
+  updateUser(
+    @CurrentUser() currentUser: User,
+    @Args('updateUserInput', { type: () => UpdateUserInput }) updateUserInput: UpdateUserInput,
+  ) {
+    return this.userService.updateUser(currentUser, updateUserInput)
   }
 
   @UseGuards(AuthGuard)

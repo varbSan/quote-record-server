@@ -15,7 +15,7 @@ export class UserType {
   @Field(() => String)
   sub: User['sub']
 
-  @Field(() => Boolean)
+  @Field(() => Boolean, { nullable: true })
   seePublicQuotes: User['seePublicQuotes']
 
   @Field(() => Date)

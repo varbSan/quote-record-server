@@ -7,7 +7,7 @@ type UserType {
   email: String!
   username: String!
   sub: String!
-  seePublicQuotes: Boolean!
+  seePublicQuotes: Boolean
   createdAt: DateTime!
   updatedAt: DateTime!
   quoteCount: Int!
@@ -43,6 +43,7 @@ type Mutation {
   uploadQuotes(fileName: String!): String!
   generatePresignedUrlFileUpload(fileName: String!, contentType: String!): String!
   createUser(createUserInput: CreateUserInput!): UserType!
+  updateUser(updateUserInput: UpdateUserInput!): UserType!
   createQuote(createQuoteInput: CreateQuoteInput!): QuoteType!
   generateQuoteImage(quoteId: Int!): QuoteType!
   updateQuote(updateQuoteInput: UpdateQuoteInput!): QuoteType!
@@ -53,6 +54,10 @@ input CreateUserInput {
   email: String!
   username: String!
   sub: String!
+}
+
+input UpdateUserInput {
+  seePublicQuotes: Boolean!
 }
 
 input CreateQuoteInput {
