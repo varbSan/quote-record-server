@@ -161,6 +161,6 @@ export class QuoteResolver {
     if (!quote.imagePrompt) {
       return ''
     }
-    return this.uploadService.generatePresignedUrlDownload(`user-${currentUser.id}_quote-${quote.id}_0`)
+    return this.uploadService.generatePresignedUrlDownload(`user-${quote.isPublic ? quote.user.id : currentUser.id}_quote-${quote.id}_0`)
   }
 }
