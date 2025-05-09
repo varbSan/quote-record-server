@@ -10,6 +10,7 @@ import {
 import { AuthGuard } from 'auth/auth.guard'
 import { CurrentUser } from 'decorators/current-user.decorator'
 import { QuoteService } from 'quote/quote.service'
+import { baseQuoteFilter } from 'utils/base-filter'
 import { CreateUserInput } from './graphql/create-user.input'
 import { UpdateUserInput } from './graphql/update-user.input'
 import { UserType } from './graphql/user.type'
@@ -49,9 +50,6 @@ export class UserResolver {
   async quoteCount(
     @CurrentUser() currentUser: User,
   ) {
-    const filter = currentUser.seePublicQuotes
-      ? { $or: [{ user: currentUser }, { isPublic: true }] }
-      : { user: currentUser }
-    return this.quoteService.getCount(filter)
+    return this.quoteService.getCount(baseQuoteFilter(currentUser))
   }
 }

@@ -2,6 +2,7 @@ import { EntityManager, FilterQuery, FindOptions } from '@mikro-orm/postgresql'
 import { Injectable } from '@nestjs/common'
 import { AiService } from 'ai/ai.service'
 import { User } from 'user/user.entity'
+import { baseQuoteFilter } from 'utils/base-filter'
 import { CreateQuote, DeleteQuote, Quote, UpdateQuote } from './quote.entity'
 
 @Injectable()
@@ -34,26 +35,13 @@ export class QuoteService {
   }
 
   async findByTerm(user: User, searchTerm?: string, limit = 50): Promise<Quote[] | null> {
-    const filter = user.seePublicQuotes
-      ? { $or: [{ user }, { isPublic: true }] }
-      : { user }
     return this.findBy({
-      ...filter,
+      ...baseQuoteFilter(user),
       ...(searchTerm ? { text: { $ilike: `%${searchTerm}%` } } : {}),
     }, {
       limit,
       orderBy: { updatedAt: -1 },
     })
-  }
-
-  async getLast(user: User): Promise<Quote | null> {
-    const [quote] = await this.em.find(
-      Quote,
-      { user },
-      { orderBy: { createdAt: 'DESC' }, limit: 1 },
-    )
-
-    return quote
   }
 
   async getRandom(filter: FilterQuery<Quote>): Promise<Quote | null> {

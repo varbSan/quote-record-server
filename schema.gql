@@ -31,7 +31,6 @@ type QuoteType {
 
 type Query {
   getCurrentUser: UserType!
-  getLastQuote: QuoteType!
   getQuote(quoteId: Int!): QuoteType!
   getRandomQuoteId: Int!
   getQuoteByText(text: String!): QuoteType!

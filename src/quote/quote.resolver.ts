@@ -14,6 +14,7 @@ import { CurrentUser } from 'decorators/current-user.decorator'
 import { QuoteType } from 'quote/graphql/quote.type'
 import { UploadService } from 'upload/upload.service'
 import { User } from 'user/user.entity'
+import { baseQuoteFilter } from 'utils/base-filter'
 import { WebSocketService } from 'web-socket/web-socket.service'
 import { CreateQuoteInput } from './graphql/create-quote.input'
 import { DeleteQuoteInput } from './graphql/delete-quote.input'
@@ -31,25 +32,13 @@ export class QuoteResolver {
 
   @UseGuards(AuthGuard)
   @Query(() => QuoteType)
-  async getLastQuote(
-    @CurrentUser() currentUser: User
-  ) {
-    return this.quoteService.getLast(currentUser)
-  }
-
-  @UseGuards(AuthGuard)
-  @Query(() => QuoteType)
   async getQuote(
     @CurrentUser() currentUser: User,
     @Args('quoteId', { type: () => Int }) quoteId: number
   ) {
-    const filter = currentUser.seePublicQuotes
-      ? { $or: [{ user: currentUser }, { isPublic: true }] }
-      : { user: currentUser }
-
     return this.quoteService.findOneBy({
       id: quoteId,
-      ...filter,
+      ...baseQuoteFilter(currentUser),
     })
   }
 
@@ -58,10 +47,7 @@ export class QuoteResolver {
   async getRandomQuoteId(
     @CurrentUser() currentUser: User
   ) {
-    const filter = currentUser.seePublicQuotes
-      ? { $or: [{ user: currentUser }, { isPublic: true }] }
-      : { user: currentUser }
-    const randomQuote = await this.quoteService.getRandom(filter)
+    const randomQuote = await this.quoteService.getRandom(baseQuoteFilter(currentUser))
     return randomQuote?.id
   }
 
@@ -71,12 +57,9 @@ export class QuoteResolver {
     @CurrentUser() currentUser: User,
     @Args('text', { type: () => String }) text: string
   ) {
-    const filter = currentUser.seePublicQuotes
-      ? { $or: [{ user: currentUser }, { isPublic: true }] }
-      : { user: currentUser }
     return this.quoteService.findOneBy({
       text,
-      ...filter,
+      ...baseQuoteFilter(currentUser),
     })
   }
 
@@ -85,10 +68,7 @@ export class QuoteResolver {
   async getQuoteCount(
     @CurrentUser() currentUser: User,
   ) {
-    const filter = currentUser.seePublicQuotes
-      ? { $or: [{ user: currentUser }, { isPublic: true }] }
-      : { user: currentUser }
-    return this.quoteService.getCount(filter)
+    return this.quoteService.getCount(baseQuoteFilter(currentUser))
   }
 
   // ⚠️ Guard is declared in subscritions in app.module ⚠️
