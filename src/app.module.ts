@@ -8,7 +8,7 @@ import { AiModule } from 'ai/ai.module'
 import { AuthModule } from 'auth/auth.module'
 import { AuthService } from 'auth/auth.service'
 import { HealthcheckController } from 'healthcheck/healthcheck.controller'
-import { UploadModule } from 'upload/upload.module'
+import { StorageModule } from 'storage/storage.module'
 import { UserService } from 'user/user.service'
 import { WebSocketModule } from 'web-socket/web-socket.module'
 import { WebSocketService } from 'web-socket/web-socket.service'
@@ -22,7 +22,7 @@ import { UserModule } from './user/user.module'
     AiModule,
     AuthModule,
     UserModule,
-    UploadModule,
+    StorageModule,
     QuoteModule,
     WebSocketModule,
     MikroOrmModule.forRoot(config),

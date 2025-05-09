@@ -8,12 +8,12 @@ import { AuthGuard } from 'auth/auth.guard'
 import { CurrentUser } from 'decorators/current-user.decorator'
 import { QuoteService } from 'quote/quote.service'
 import { User } from 'user/user.entity'
-import { UploadService } from './upload.service'
+import { StorageService } from './storage.service'
 
 @Resolver(() => String)
-export class UploadResolver {
+export class StorageResolver {
   constructor(
-    private readonly uploadService: UploadService,
+    private readonly storageService: StorageService,
     private readonly quoteService: QuoteService
   ) {}
 
@@ -23,12 +23,12 @@ export class UploadResolver {
     @CurrentUser() currentUser: User,
     @Args('fileName') fileName: string
   ) {
-    const fileContent = await this.uploadService.getFileContent(currentUser, fileName)
+    const fileContent = await this.storageService.getFileContent(currentUser, fileName)
     if (!fileContent)
       throw new Error('❗ Fetching file from bucket failed ❗')
 
     // Process the file contents
-    const quotes = await this.uploadService.parseMarkdownFile(fileContent)
+    const quotes = await this.storageService.parseMarkdownFile(fileContent)
 
     // Save each quote as a Quote
     const res = await this.quoteService.upsertMany(currentUser, quotes)
@@ -45,6 +45,6 @@ export class UploadResolver {
     @Args('fileName') fileName: string,
     @Args('contentType') contentType: string,
   ) {
-    return this.uploadService.generatePresignedUrlUpload(`user-${currentUser.id}_filename-${encodeURIComponent(fileName)}_0`, contentType)
+    return this.storageService.generatePresignedUrlUpload(`user-${currentUser.id}_filename-${encodeURIComponent(fileName)}_0`, contentType)
   }
 }

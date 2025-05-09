@@ -12,7 +12,7 @@ import {
 import { AuthGuard } from 'auth/auth.guard'
 import { CurrentUser } from 'decorators/current-user.decorator'
 import { QuoteType } from 'quote/graphql/quote.type'
-import { UploadService } from 'upload/upload.service'
+import { StorageService } from 'storage/storage.service'
 import { User } from 'user/user.entity'
 import { baseQuoteFilter } from 'utils/base-filter'
 import { WebSocketService } from 'web-socket/web-socket.service'
@@ -27,7 +27,7 @@ export class QuoteResolver {
   constructor(
     private readonly quoteService: QuoteService,
     private readonly webSocketService: WebSocketService,
-    private readonly uploadService: UploadService
+    private readonly storageService: StorageService
   ) {}
 
   @UseGuards(AuthGuard)
@@ -141,6 +141,6 @@ export class QuoteResolver {
     if (!quote.imagePrompt) {
       return ''
     }
-    return this.uploadService.generatePresignedUrlDownload(`user-${quote.isPublic ? quote.user.id : currentUser.id}_quote-${quote.id}_0`)
+    return this.storageService.generatePresignedUrlDownload(`user-${quote.isPublic ? quote.user.id : currentUser.id}_quote-${quote.id}_0`)
   }
 }

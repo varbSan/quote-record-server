@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import fetch from 'node-fetch'
 import { Ollama } from 'ollama'
-import { UploadService } from 'upload/upload.service'
+import { StorageService } from 'storage/storage.service'
 import { User } from 'user/user.entity'
 import { GenerationResponse } from './types'
 
@@ -10,7 +10,7 @@ import { GenerationResponse } from './types'
 export class AiService {
   constructor(
     private readonly configService: ConfigService,
-    private readonly uploadService: UploadService,
+    private readonly storageService: StorageService,
   ) {
     this.ollama = new Ollama({ host: this.configService.get<string>('OLLAMA_SERVER_URL') })
   }
@@ -91,7 +91,7 @@ export class AiService {
     const responseJSON = (await response.json()) as GenerationResponse
 
     const uploadPromises = responseJSON.artifacts.map((image, index) => {
-      return this.uploadService.uploadImage({
+      return this.storageService.uploadImage({
         bucketKey: `user-${dto.user.id}_quote-${dto.quoteId}_${index}`,
         image,
         contentType: 'image/png',

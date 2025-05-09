@@ -12,7 +12,7 @@ import { User } from 'user/user.entity'
 import { BucketKey, FileBucketKey, QuoteImageBucketKey } from './types'
 
 @Injectable()
-export class UploadService {
+export class StorageService {
   private readonly s3: S3Client
 
   constructor(
