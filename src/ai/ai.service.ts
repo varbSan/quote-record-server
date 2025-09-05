@@ -35,7 +35,7 @@ export class AiService {
     `
     try {
       const response = await this.ollama.chat({
-        model: 'gemma3:1b',
+        model: 'gemma3:4b',
         messages: [{ role: 'system', content: systemPrompt }],
       })
 
